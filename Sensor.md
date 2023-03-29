@@ -183,5 +183,5 @@ Add in lines 171 and 172 to the file to disable IPv6.
 Remove or comment line 181 from this file.
 
 4. Ensure SELinux is enabled and reload and restart the system  
-`sestatus`
+`sestatus`  
 `sudo sysctl -p`
