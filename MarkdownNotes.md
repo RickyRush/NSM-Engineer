@@ -41,7 +41,7 @@ ___Or this one!___
 ---
 
 1. Numbered list
-212. Lorem upsom
+212. Lorem sugma
 195. It will automatically number it properly, starting at the first number!
 
 ---

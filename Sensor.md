@@ -8,7 +8,7 @@
 5. Select 'English > US English'
 6. Select 'Network and Host Name'
   1.  Configure eno1 as Management Port
-    1. Insert Ethernet to RIGHT port on the back of IntelNUC > LAN1 on PFSense
+    1. Insert Ethernet to **RIGHT port** on the back of IntelNUC > LAN1 on PFSense
     2. Turn the Ethernet of eno1 'ON'
     3. Click 'Configure'
     4. Select IPv4 Settings
@@ -182,5 +182,6 @@ Add in lines 171 and 172 to the file to disable IPv6.
 ```
 Remove or comment line 181 from this file.
 
-4. Reload and restart the system  
+4. Ensure SELinux is enabled and reload and restart the system  
+`sestatus`
 `sudo sysctl -p`
