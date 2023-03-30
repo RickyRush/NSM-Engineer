@@ -72,3 +72,78 @@ Start the service and verify it works.
 `sudo systemctl start fsf.service`  
 `sudo systemctl enable fsf.service`  
 `sudo systemctl status fsf.service`  
+
+
+We can test fsf by making a dummy file and passing it to fsf.  
+`echo "bababooey > ~/bababooey.txt"`  
+`/opt/fsf/fsf-client/fsf_client.py --full ~/bababooey.txt`  
+`cat /data/fsf/rockout.log`  
+
+Now we will create the directory the extracted files will go to.  
+`sudo mkdir /data/zeek/extracted_files`
+`sudo chown -R zeek: /data/zeek/extracted_files`  
+`sudo chmod 755 /data/zeek/extracted_files`  
+
+Now we write the script that will actually extract the files.  
+`sudo vi /usr/share/zeek/site/scripts/extract_files.zeek`  
+```
+@load /usr/share/zeek/policy/frameworks/files/extract-all-files.zeek
+redef FileExtract::prefix = "/data/zeek/extracted_files/";
+redef FileExtract::default_limit = 1048576000;
+```
+
+Now we need to add this script to the bottom of the local.zeek file.  
+`sudo vi /usr/share/zeek/site/local.zeek`  
+```
+@load /usr/share/zeek/site/scripts/afpacket.zeek
+@load /usr/share/zeek/site/scripts/extension.zeek
+@load /usr/share/zeek/site/scripts/kafka.zeek
+@load /usr/share/zeek/site/scripts/extract_files.zeek
+```
+It should now look like this. We need to reload the service since we changed a configuration. Hopefully no errors :D  
+
+`sudo systemctl restart zeek`   
+
+Now we begin final verification.  
+`sudo curl 192.168.2.20:8080/putty.exe`  
+```
+[admin@SG-30 ~]$ ll /data/zeek/extracted_files
+total 1612
+-rw-r--r--. 1 zeek zeek 1647912 Mar 30 19:31 extract-1680204688.362197-HTTP-F6AdXh1XLthVg4KJHb
+```
+
+We can see the file was successfully extracted by fsf.
+
+We now download another zeek script for fsf. Ensure line 10 matches our local extracted files directory.  
+`cd /usr/share/zeek/site/scripts/`  
+`sudo curl -LO 192.168.2.20:8080/zeek_scripts/fsf.zeek`  
+```
+1 # Put this in /usr/share/zeek/site/scripts
+2 # And add a @load statement to the /usr/share/zeek/site/local.zeek script
+3
+4 event file_state_remove(f: fa_file)
+5     {
+6         if ( f$info?$extracted )
+7         {
+8                # invoke the FSF-CLIENT and add the source metadata of ROCK01 (sensorID), we're suppressing the returned report
+9                # becuase we don't need that
+10                local file_path = "/data/zeek/extracted_files/";
+11                local script_path = "/opt/fsf/fsf-client/fsf_client.py";
+12                local scan_cmd = fmt("python %s --suppress-report --archive none  %s%s", script_path, file_path, f$info$extracted);
+13                system(scan_cmd);
+14          }
+15 }
+
+```
+
+And again, add this to the local.zeek.  
+`sudo vi /usr/share/zeek/site/local.zeek`  
+```
+@load /usr/share/zeek/site/scripts/afpacket.zeek
+@load /usr/share/zeek/site/scripts/extension.zeek
+@load /usr/share/zeek/site/scripts/kafka.zeek
+@load /usr/share/zeek/site/scripts/extract_files.zeek
+@load /usr/share/zeek/site/scripts/fsf.zeek
+```
+Like mechagodzilla, this part of the file just keeps getting bigger.  
+`sudo systemctl restart zeek`  
