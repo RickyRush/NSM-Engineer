@@ -21,7 +21,7 @@ to upload:
 1. Install and configure CentOS to the sensor.  (sensor.md)
 2. Create the local repo  (repo.md)
 3. Set enp5s0 to be promiscuous (sniffing traffic.md)
-4. Install the services
+4. Install the services (steno, suricata, zeek, fsf, kafka)
 
 If having issues connecting after wiping sensor -
 `[student@student37 ~]$ cd /home/student/.ssh/
