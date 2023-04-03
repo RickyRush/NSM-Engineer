@@ -16,7 +16,7 @@ And we can begin server configurations.
 15                    'ACTIVE_LOGGING_MODULES' : ['scan_log', 'rockout'],
 16                    }
 17
-18 SERVER_CONFIG = { 'IP_ADDRESS' : "localhost",
+18 SERVER_CONFIG = { 'IP_ADDRESS' : "172.16.30.100",
 19                   'PORT' : 5800 }
 ```
 
@@ -36,7 +36,7 @@ Now we can look at the fsf client. We don't need to make any changes but this is
 6 # 'IP Address' is a list. It can contain one element, or more.
 7 # If you put multiple FSF servers in, the one your client chooses will
 8 # be done at random. A rudimentary way to distribute tasks.
-9 SERVER_CONFIG = { 'IP_ADDRESS' : ['127.0.0.1',],
+9 SERVER_CONFIG = { 'IP_ADDRESS' : ['172.16.30.100',],
 10                   'PORT' : 5800 }
 11
 12 # Full path to debug file if run with --suppress-report
