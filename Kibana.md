@@ -86,8 +86,9 @@ In Kibana GUI, enter "explore on my own", and navigate to dev tools.
 Here we can verify the templates we just loaded by running the above query. We won't see any data in Kibana yet because Logstash is not installed.  
 
 ---
-After finishing installing the remaining services, we need to create an index pattern. This is done via Kibana GUI (management > stack management > index patterns > create index pattern). Index pattern name `ecs-suricata-*` Select @timestamp. Select next and your index is created.  
+After finishing installing the remaining services, we need to create an index pattern. This is done via Kibana GUI (management > stack management > index patterns > create index pattern). Index pattern name `ecs-suricata-*` Select @timestamp. Select create index and return to index patterns.    
 
 We need to create the following indexes:  
 `ecs-suricata-*`  
 `ecs-zeek-*`  
+`fsf-*`  
