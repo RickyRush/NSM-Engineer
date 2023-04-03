@@ -184,4 +184,6 @@ Remove or comment line 181 from this file.
 
 4. Ensure SELinux is enabled and reload and restart the system  
 `sestatus`  
-`sudo sysctl -p`
+`sudo sysctl -p`  
+
+`sudo ip link dev eno1 up`  

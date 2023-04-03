@@ -26,7 +26,7 @@ Make the following changes to the zeek config file.
 Up next, we make the following changes to the node file.  
 `sudo vi /etc/zeek/node.cfg`  
 ```
- 8 #[zeek]                                        + + +
+ 8 #[zeek]                              + + +
  9 #type=standalone
 10 #host=localhost
 11 #interface=eth0
@@ -131,7 +131,7 @@ After=network.target
 Type=forking
 User=zeek
 ExecStart=/usr/bin/zeekctl deploy
-ExecStop=/usr/bin/zeetctl stop
+ExecStop=/usr/bin/zeekctl stop
 
 [Install]
 WantedBy=multi-user.target

@@ -87,6 +87,7 @@ Now we need to add a script to Zeek to make it talk to kafka.
 `cd /usr/share/zeek/site/scripts/`  
 `sudo curl -LO 192.168.2.20:8080/zeek_scripts/kafka.zeek`  
 `sudo chown zeek: kafka.zeek`  
+`sudo vi kafka.zeek`  
 ```
 7     ["metadata.broker.list"] = "172.16.30.100:9092");
 ```
@@ -97,6 +98,8 @@ Now we need to add this script to the local.zeek file.
 105 @load /usr/share/zeek/site/scripts/extension.zeek
 106 @load /usr/share/zeek/site/scripts/kafka.zeek
 ```
+`sudo systemctl restart zeek`  
+
 Verify zeek-raw created the necessary topic.    
 `sudo /usr/share/kafka/bin/kafka-topics.sh --bootstrap-server 172.16.30.100:9092 --list`
 

@@ -59,7 +59,7 @@ Create another systemd service for fsf.
 11 PermissionsStartOnly=true
 12 ExecStartPre=/bin/mkdir -p /run/fsf
 13 ExecStartPre=/bin/chown -R fsf:fsf /run/fsf
-14 ExecStartPre=/opt/fsf/fsf-server/main.py start
+14 ExecStart=/opt/fsf/fsf-server/main.py start
 15 ExecStop=/opt/fsf/fsf-server/main.py stop
 16 ExecReload=/opt/fsf/fsf-server/main.py restart
 17
@@ -77,15 +77,17 @@ Start the service and verify it works.
 We can test fsf by making a dummy file and passing it to fsf.  
 `echo "bababooey > ~/bababooey.txt"`  
 `/opt/fsf/fsf-client/fsf_client.py --full ~/bababooey.txt`  
-`cat /data/fsf/rockout.log`  
+`cat /data/fsf/logs/rockout.log`  
+We should see the created file in this log.  
 
 Now we will create the directory the extracted files will go to.  
-`sudo mkdir /data/zeek/extracted_files`
-`sudo chown -R zeek: /data/zeek/extracted_files`  
+`sudo mkdir /data/zeek/extracted_files`  
+`sudo chown -R zeek: /data/zeek/`    
 `sudo chmod 755 /data/zeek/extracted_files`  
 
 Now we write the script that will actually extract the files.  
-`sudo vi /usr/share/zeek/site/scripts/extract_files.zeek`  
+`sudo curl -LO 192.168.2.20:8080/zeek_scripts/extract-files.zeek`  
+`sudo vi /usr/share/zeek/site/scripts/extract-files.zeek`  
 ```
 @load /usr/share/zeek/policy/frameworks/files/extract-all-files.zeek
 redef FileExtract::prefix = "/data/zeek/extracted_files/";
@@ -98,7 +100,7 @@ Now we need to add this script to the bottom of the local.zeek file.
 @load /usr/share/zeek/site/scripts/afpacket.zeek
 @load /usr/share/zeek/site/scripts/extension.zeek
 @load /usr/share/zeek/site/scripts/kafka.zeek
-@load /usr/share/zeek/site/scripts/extract_files.zeek
+@load /usr/share/zeek/site/scripts/extract-files.zeek
 ```
 It should now look like this. We need to reload the service since we changed a configuration. Hopefully no errors :D  
 
@@ -133,8 +135,8 @@ We now download another zeek script for fsf. Ensure line 10 matches our local ex
 13                system(scan_cmd);
 14          }
 15 }
-
 ```
+Change line 10 to match our extracted_files directory.  
 
 And again, add this to the local.zeek.  
 `sudo vi /usr/share/zeek/site/local.zeek`  
