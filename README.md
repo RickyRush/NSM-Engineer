@@ -23,13 +23,14 @@ to upload:
 3. Set enp5s0 to be promiscuous (sniffing traffic.md)
 4. Install the services (steno, suricata, zeek, fsf, kafka)
 
-If having issues connecting after wiping sensor -
-`[student@student37 ~]$ cd /home/student/.ssh/
+If having issues connecting after wiping sensor -  
+`[student@student37 ~]$ cd /home/student/.ssh/`
+```
 [student@student37 .ssh]$ ll
 total 12
 -rw-------. 1 student docker 1679 Mar 27 15:58 id_rsa
 -rw-r--r--. 1 student docker  411 Mar 27 15:58 id_rsa.pub
 -rw-r--r--. 1 student docker  351 Mar 28 14:53 known_hosts
 [student@student37 .ssh]$ rm -rf known_hosts
-`
+```
 This will wipe the SSH fingerprint on record for the sensor
