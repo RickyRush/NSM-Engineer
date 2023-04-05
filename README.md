@@ -38,11 +38,27 @@ This will wipe the SSH fingerprint on record for the sensor
 
 Test Questions
 ---
-1. Are all services running?
+1. Are all services running?  
+  `sudo systemctl status stenographer`  
+  `sudo systemctl status suricata`  
+  `sudo systemctl status zeek`  
+  `sudo systemctl status fsf`  
+  `sudo systemctl status kibana`  
+  `sudo systemctl status kafka`  
+  `sudo systemctl status zookeeper`  
+  `sudo systemctl status logstash`  
+  `sudo systemctl status filebeat`
 2. Will my monitoring interface persist on reboot?  
 3. Can I pull pcap from steno?  
+  `ping 192.168.2.20`  
+  `sudo stenoread 'host 192.168.2.20' -nn`  
 4. Do I have suricata logs?  
+  `tail -f eve.json`
 5. Do I have zeek logs?  
+  `ll /data/zeek/current`
 6. Is zeek streaming logs to kafka topic?  
+  `sudo /usr/share/kafka/bin/kafka-console-consumer.sh --bootstrap-server 172.16.30.100:9092 --topic zeek-raw`
 7. Is zeek doing file extraction?  
 8. Does fsf analysis/logging work?  
+`sudo curl 192.168.2.20:8080/putty.exe`  
+`ll /data/zeek/extracted_files`
