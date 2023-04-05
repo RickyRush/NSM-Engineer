@@ -103,7 +103,6 @@
 45         hosts => [ "172.16.30.100" ]
 46         index => "parse-failures-%{+YYYY.MM.dd}"
 47         manage_template => false
-48     }
 49   }
 50
 51   # Catch all index that is not RockNSM or ECS or parse failures
