@@ -59,7 +59,7 @@ Test Questions
 5. Do I have zeek logs?  
   `cat /data/zeek/logger/conn.log`
 6. Is zeek streaming logs to kafka topic?  
-  `sudo /usr/share/kafka/bin/kafka-topics.sh --boostrap-server 172.16.30.100 --list`  
+  `sudo /usr/share/kafka/bin/kafka-topics.sh --boostrap-server 172.16.30.100:9092 --list`  
   `sudo /usr/share/kafka/bin/kafka-console-consumer.sh --bootstrap-server 172.16.30.100:9092 --topic zeek-raw`
 7. Is zeek doing file extraction?  
 8. Does fsf analysis/logging work?  
@@ -68,7 +68,7 @@ Test Questions
 `/opt/fsf/fsf-client/fsf_client.py --full ~/bababooey`  
 `cat /data/fsf/logs/rockout.log | jq`  
 9. Does Elasticsearch work?   
-  `curl 172.16.30.100:9092`  
+  `curl 172.16.30.100:9200`  
 10. Does Kibana work?  
   `browse to 172.16.30.100:5601`  
   `verify traffic in discover tab`  
@@ -79,15 +79,7 @@ Test Questions
   `sudo tail -f /var/log/logstash/logstash-plain.log`  
   `watch -d curl 172.16.30.100:9200/_cat/indices?v`  
 ```
-347  systemctl status kibana
-348  systemctl status logstash
-349  systemctl status filebeat
-350  systemctl status fsf
-351  systemctl status kafka
-352  systemctl status zookeeper
-353  systemctl status zeek
-354  systemctl status suricata
-355  systemctl status stenographer
+347  systemctl status kibana logstash filebeat fsf kafka zookeeper zeek suricata stenographer
 356  stenoread 'host 172.16.30.100'
 357  tail -f eve.json
 358  tail -f /data/suricata/eve.json
@@ -97,3 +89,20 @@ Test Questions
 365  cat /data/fsf/logs/rockout.log
 366  /usr/share/kafka/bin/kafka-topics.sh --bootstrap-server 172.16.30.100:9092 --list
 ```
+
+FIREWALL change > added port 561 and removed 5601. changed back.
+kafka.zeek script > zeek-raww > changed port to 9029. change back to 9092.. changed IP to loopback. change back to sensor.
+/etc/kafka/server.properties > changed zookeeper port to 9092. change back to 2181.
+/etc/kafka/server.properties > changed logs output to /data/kakfa. change back to /data/kafka
+
+CHOWN all /data/ folders.
+
+```
+sudo chmod 755 /usr/lib/systemd/system/elasticsearch.service.d
+sudo chmod 644 /usr/lib/systemd/system/override.conf
+sudo systemctl daemon-reload
+```
+
+Logstash-input zeek.conf > zeek-raww ; sensor ip change, port change (change back to 9092)
+
+Filebeat.yaml > suricaata-raww, evee.json, reoot = treat
