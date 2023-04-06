@@ -25,7 +25,7 @@ Now we need to create the folders mentioned in the file.
 `sudo chown -R fsf: /data/fsf`  
 `sudo chmod -R 755 /data/fsf`    
 
-Now we can look at the fsf client. We don't need to make any changes but this is where you'd go to update any client information.   
+Now we can look at the fsf client. We need to update the IP to the sensor IP.   
 `sudo vi /opt/fsf/fsf-client/conf/config.py`  
 ```
 1 #!/usr/bin/env python
@@ -81,16 +81,16 @@ We can test fsf by making a dummy file and passing it to fsf.
 We should see the created file in this log.  
 
 Now we will create the directory the extracted files will go to.  
-`sudo mkdir /data/zeek/extracted_files`  
+`sudo mkdir /data/zeek/extract_files`  
 `sudo chown -R zeek: /data/zeek/`    
-`sudo chmod 755 /data/zeek/extracted_files`  
+`sudo chmod 755 /data/zeek/extract_files`  
 
 Now we write the script that will actually extract the files.  
 `sudo curl -LO 192.168.2.20:8080/zeek_scripts/extract-files.zeek`  
 `sudo vi /usr/share/zeek/site/scripts/extract-files.zeek`  
 ```
 @load /usr/share/zeek/policy/frameworks/files/extract-all-files.zeek
-redef FileExtract::prefix = "/data/zeek/extracted_files/";
+redef FileExtract::prefix = "/data/zeek/extract_files/";
 redef FileExtract::default_limit = 1048576000;
 ```
 
@@ -109,7 +109,7 @@ It should now look like this. We need to reload the service since we changed a c
 Now we begin final verification.  
 `sudo curl 192.168.2.20:8080/putty.exe`  
 ```
-[admin@SG-30 ~]$ ll /data/zeek/extracted_files
+[admin@SG-30 ~]$ ll /data/zeek/extract_files
 total 1612
 -rw-r--r--. 1 zeek zeek 1647912 Mar 30 19:31 extract-1680204688.362197-HTTP-F6AdXh1XLthVg4KJHb
 ```

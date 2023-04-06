@@ -10,6 +10,7 @@ We only have two changes to make to the Kibana yml.
 28 elasticsearch.hosts: ["http://172.16.30.100:9200"]
 ```
 `sudo firewall-cmd --addport-port=5601/tcp --permanent`  
+`sudo firewall-cmd --reload`  
 ```
 [root@SG-30 elasticsearch]# ss -lnt
 State       Recv-Q Send-Q                                                         Local Address:Port                                                                        Peer Address:Port              
@@ -22,12 +23,12 @@ We're now going to curl down a .tar file.
 `sudo curl -LO 192.168.2.20:8080/ecskibana.tar.gz`  
 `tar -zxvf ecskibana.tar.gz`  
 `cd ecskibana`  
-`./import-index-templates.sh`  
+`vi import-index-templates.sh`  
 ```
 #!/bin/bash
 
 _URL=$1
-ES_URL=${_URL:='http://localhost:9200'}
+ES_URL=${_URL:='http://172.16.30.100:9200'}
 
 function is_integer() {
     [ "$1" -eq "$1" ] > /dev/null 2>&1
@@ -79,7 +80,7 @@ echo "OK: ${ok}"
 echo "Changed: ${changed}"
 echo "Failed: ${failed}"
 ```
-
+`sudo ./import-index-templates.sh`  
 In Kibana GUI, enter "explore on my own", and navigate to dev tools.  
 `GET _cat/templates/ecs*`  
 `GET _cat/templates?v&s=name`  
