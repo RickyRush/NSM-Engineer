@@ -90,12 +90,12 @@ Test Questions
 366  /usr/share/kafka/bin/kafka-topics.sh --bootstrap-server 172.16.30.100:9092 --list
 ```
 
-FIREWALL change > added port 561 and removed 5601. changed back.
-kafka.zeek script > zeek-raww > changed port to 9029. change back to 9092.. changed IP to loopback. change back to sensor.
-/etc/kafka/server.properties > changed zookeeper port to 9092. change back to 2181.
-/etc/kafka/server.properties > changed logs output to /data/kakfa. change back to /data/kafka
+FIREWALL change > added port 561 and removed 5601. changed back.    
+kafka.zeek script > zeek-raww > changed port to 9029. change back to 9092.. changed IP to loopback. change back to sensor.     
+/etc/kafka/server.properties > changed zookeeper port to 9092. change back to 2181.   
+/etc/kafka/server.properties > changed logs output to /data/kakfa. change back to /data/kafka   
 
-CHOWN all /data/ folders.
+CHOWN all /data/ folders.   
 
 ```
 sudo chmod 755 /usr/lib/systemd/system/elasticsearch.service.d
@@ -103,6 +103,6 @@ sudo chmod 644 /usr/lib/systemd/system/override.conf
 sudo systemctl daemon-reload
 ```
 
-Logstash-input zeek.conf > zeek-raww ; sensor ip change, port change (change back to 9092)
+Logstash-input zeek.conf > zeek-raww ; sensor ip change, port change (change back to 9092)  
 
-Filebeat.yaml > suricaata-raww, evee.json, reoot = treat
+Filebeat.yaml > suricaata-raww, evee.json, reoot = treat  
