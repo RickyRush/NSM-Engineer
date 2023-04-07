@@ -91,6 +91,11 @@ Test Questions
 ```
 
 FIREWALL change > added port 561 and removed 5601. changed back.    
+```
+firewall-cmd --remove-port=561/tcp --permanent
+firewall-cmd --add-port=5601/tcp --permanent
+```
+
 kafka.zeek script > zeek-raww > changed port to 9029. change back to 9092.. changed IP to loopback. change back to sensor.     
 /etc/kafka/server.properties > changed zookeeper port to 9092. change back to 2181.   
 /etc/kafka/server.properties > changed logs output to /data/kakfa. change back to /data/kafka   
@@ -104,5 +109,14 @@ sudo systemctl daemon-reload
 ```
 
 Logstash-input zeek.conf > zeek-raww ; sensor ip change, port change (change back to 9092)  
-
 Filebeat.yaml > suricaata-raww, evee.json, reoot = treat  
+
+Test Day
+---
+Changed /data permissions back to root  
+Changed firewall to port 561 instead of 5601  
+`firewall-cmd --remove-port=561/tcp --permanent`  
+`firewall-cmd --add-port=5601/tcp --permanent`  
+Changed permissions of /usr/lib/systemd/system/elasticsearch.service.d.   
+`sudo chmod 755 /usr/lib/systemd/system/elasticsearch.service.d`  
+Changed kafka.zeek script. Edited port to 9029.  
